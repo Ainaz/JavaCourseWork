@@ -21,6 +21,7 @@ public class Main {
         System.out.print("Transport: " + countWheelMin(transports) + " Count of wheels: "  + countWheelMin(transports).getWheelCount());
     }
 
+
     public static Transport countWheelMin(Transport[] transports){
         int minCountWheels = transports[0].getWheelCount();
         Transport trans = transports[0];
