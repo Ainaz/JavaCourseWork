@@ -13,30 +13,28 @@ public class SimpleTokenizerImple implements Tokenizer {
     public Token[] parse(String text) {
 
         char[] textChars = text.toCharArray();
-        Token[] tokens = new Token[textChars.length];
+        Token[] tokens = new Token[textChars.length/ 2];
         String subject = "";
         int tokenCounter = 0;
         boolean tokenIsWord = false;
         boolean tokenIsNumber = false;
 
-        for (int i = 1; i < textChars.length + 1; i++) {
+        for (int i = 1; i < textChars.length; i++) {
             if(!tokenIsNumber){
                 for (char letter : this.letters) {
                     if (textChars[i] == letter){
-                        for (char let : this.letters){
-                            if (textChars[i - 1] != let){
-                                tokens[tokenCounter] = new Word();
-                                tokens[tokenCounter].setStartToken(i);
-                                subject = "";
-                                tokenIsWord = true;
-                            }
-                            subject = subject + textChars[i];
-                            if (textChars[i + 1] != let) {
-                                tokens[tokenCounter].setEndToken(i);
-                                tokens[tokenCounter].setSubject(subject);
-                                tokenCounter++;
-                                tokenIsWord = false;
-                            }
+                        if (textChars[i - 1] == ' '){
+                            tokens[tokenCounter] = new Word();
+                            tokens[tokenCounter].setStartToken(i);
+                            subject = "";
+                            tokenIsWord = true;
+                        }
+                        subject = subject + textChars[i];
+                        if (textChars[i + 1] == ' ') {
+                            tokens[tokenCounter].setEndToken(i);
+                            tokens[tokenCounter].setSubject(subject);
+                            tokenCounter++;
+                            tokenIsWord = false;
                         }
                         break;
                     }
@@ -45,20 +43,18 @@ public class SimpleTokenizerImple implements Tokenizer {
             if (!tokenIsWord){
                 for (char number : this.numbers) {
                     if (textChars[i] == number){
-                        for (char num : numbers) {
-                            if (textChars[i - 1] != num){
-                                tokens[tokenCounter] = new Number();
-                                tokens[tokenCounter].setStartToken(i);
-                                subject = "";
-                                tokenIsNumber = true;
-                            }
-                            subject = subject + textChars[i];
-                            if (textChars[i + 1] != num){
-                                tokens[tokenCounter].setEndToken(i);
-                                tokens[tokenCounter].setSubject(subject);
-                                tokenCounter++;
-                                tokenIsNumber = false;
-                            }
+                        if (textChars[i - 1] == ' '){
+                            tokens[tokenCounter] = new Number();
+                            tokens[tokenCounter].setStartToken(i);
+                            subject = "";
+                            tokenIsNumber = true;
+                        }
+                        subject = subject + textChars[i];
+                        if (textChars[i + 1] == ' '){
+                            tokens[tokenCounter].setEndToken(i);
+                            tokens[tokenCounter].setSubject(subject);
+                            tokenCounter++;
+                            tokenIsNumber = false;
                         }
                         break;
                     }
